@@ -39,8 +39,6 @@ async def covidth(ctx) :
 	e.add_field(name='🏡 ผู้ป่วยหายแล้ว', value=f"{thai['Data'][-1]['Recovered']} (เพิ่มขึ้น {thai['Data'][-1]['NewRecovered']})")
 	e.add_field(name='🏥 รักษาตัวอยู่ รพ.', value=f"{thai['Data'][-1]['Hospitalized']}")
 
-	e.add_field(name='🟥 อัตราการเสียชีวิต', value=f"{thai['Data'][-1]['Deaths']} / ({thai['Data'][-1]['Confirmed']})")
-	# e.add_field(name='🟩 อัตราการหาย', value=f"{thai['Data'][-1]['Hospitalized']}")
 	e.set_footer(text=f'📰 ข้อมูลจาก กรมควมคุมโรค\n👨‍💻 พัฒนาบอทโดย Pargorn Ruasijan')
 
 	await ctx.send(embed=e)
