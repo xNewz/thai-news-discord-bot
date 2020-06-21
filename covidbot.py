@@ -45,4 +45,4 @@ async def covidth(ctx) :
 
 	await ctx.send(embed=e)
 
-bot.run('Njk4MDM3ODE3OTc2MDI5MjM1.XpKbFQ.CGBIzxrngT7LzXBxWX8OUsG9M0A')
+bot.run('#TOKEN HERE')
