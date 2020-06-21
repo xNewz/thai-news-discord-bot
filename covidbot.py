@@ -7,7 +7,7 @@ bot = commands.Bot(command_prefix = '/')
 
 @bot.event 
 async def on_ready() :
-	print(f"Bot {bot.user.name} has started")
+	print(f"{bot.user.name} has started")
 
 @bot.event
 async def on_message(message) :
