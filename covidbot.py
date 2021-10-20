@@ -5,10 +5,11 @@ from discord.ext import commands
 
 bot = commands.Bot(command_prefix = '/')
 
-@bot.event 
+@bot.event
 async def on_ready() :
-	print(f"{bot.user.name} has started")
-
+	print(f"Bot {bot.user.name} has started")
+	await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.playing, name="/covid_th และ /covid_uthai"))
+	
 @bot.event
 async def on_message(message) :
 	await bot.process_commands(message)
@@ -24,23 +25,38 @@ async def fetch(session, url) :
 		return await respones.text()
 
 @bot.command()
-async def covidth(ctx) :
-	thai = await get_data_url('https://covid19.th-stat.com/api/open/timeline')
+async def covid_th(ctx) :
+	thai = await get_data_url('https://covid19.ddc.moph.go.th/api/Cases/today-cases-all')
 	thai = json.loads(thai)
-
+	print(thai)
 	e = discord.Embed(
 		title = "รายงานสถานการณ์ โควิด-19 ในประเทศไทย",
-		description = f"วันที่ {thai['UpdateDate']}",
+		description = f"วันที่ {thai[0]['txn_date']}",
 		color = 0xFFFF33
-	)  
+	)
 
-	e.add_field(name='😷 ผู้ป่วยสะสม', value=f"{thai['Data'][-1]['Confirmed']} (เพิ่มขึ้น {thai['Data'][-1]['NewConfirmed']})")
-	e.add_field(name='☠ ผู้ป่วยเสียชีวิต', value=f"{thai['Data'][-1]['Deaths']} (เพิ่มขึ่น {thai['Data'][-1]['NewDeaths']})")
-	e.add_field(name='🏡 ผู้ป่วยหายแล้ว', value=f"{thai['Data'][-1]['Recovered']} (เพิ่มขึ้น {thai['Data'][-1]['NewRecovered']})")
-	e.add_field(name='🏥 รักษาตัวอยู่ รพ.', value=f"{thai['Data'][-1]['Hospitalized']}")
+	e.add_field(name='😷 ผู้ป่วยสะสม', value=f"{thai[0]['total_case']} (เพิ่มขึ้น {thai[0]['new_case']})")
+	e.add_field(name='☠ ผู้ป่วยเสียชีวิต', value=f"{thai[0]['total_death']} (เพิ่มขึ่น {thai[0]['new_death']})")
+	e.add_field(name='🏡 ผู้ป่วยหายแล้ว', value=f"{thai[0]['total_recovered']} (เพิ่มขึ้น {thai[0]['new_recovered']})")
 
 	e.set_footer(text=f'📰 ข้อมูลจาก กรมควมคุมโรค\n👨‍💻 พัฒนาบอทโดย Pargorn Ruasijan')
-
 	await ctx.send(embed=e)
 
-bot.run('#TOKEN HERE')
+@bot.command()
+async def covid_uthai(ctx) :
+	thai = await get_data_url('https://covid19.ddc.moph.go.th/api/Cases/today-cases-by-provinces')
+	thai = json.loads(thai)
+	print(thai[68])
+	e = discord.Embed(
+		title = "รายงานสถานการณ์ โควิด-19 จังหวัดอุทัยธานี",
+		description = f"วันที่ {thai[68]['txn_date']}",
+		color = 0x000069
+	)
+
+	e.add_field(name='😷 ผู้ป่วยสะสม', value=f"{thai[68]['total_case']} (เพิ่มขึ้น {thai[68]['new_case']})")
+	e.add_field(name='☠ ผู้ป่วยเสียชีวิต', value=f"{thai[68]['total_death']} (เพิ่มขึ่น {thai[68]['new_death']})")
+
+	e.set_footer(text=f'📰 ข้อมูลจาก กรมควมคุมโรค\n👨‍💻 พัฒนาบอทโดย Pargorn Ruasijan')
+	await ctx.send(embed=e)
+
+bot.run('') #TOKEN HERE
