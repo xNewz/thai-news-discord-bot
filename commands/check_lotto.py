@@ -13,14 +13,24 @@ class CheckLotto(commands.Cog):
     async def check_lotto(self, ctx, number: str):
         prefix = self.bot.command_prefix if isinstance(self.bot.command_prefix, str) else "/"
         if not number.isdigit() or len(number) != 6:
-            await ctx.send(f"❌ กรุณากรอกเลข 6 หลัก เช่น `{prefix}check_lotto 123456`")
+            embed = discord.Embed(
+                title="❌ ข้อมูลไม่ถูกต้อง",
+                description=f"กรุณากรอกเลข 6 หลัก เช่น `{prefix}check_lotto 123456`",
+                color=0xFF0000
+            )
+            await ctx.send(embed=embed)
             return
 
         try:
             async with aiohttp.ClientSession() as session:
                 async with session.get("https://lotto.api.rayriffy.com/latest") as resp:
                     if resp.status != 200:
-                        await ctx.send("❌ ไม่สามารถดึงข้อมูลหวยได้ในขณะนี้")
+                        embed = discord.Embed(
+                            title="❌ ไม่สามารถดึงข้อมูลหวยได้",
+                            description="ขออภัย ไม่สามารถดึงข้อมูลหวยได้ในขณะนี้ กรุณาลองใหม่ภายหลัง",
+                            color=0xFF0000
+                        )
+                        await ctx.send(embed=embed)
                         return
                     data = await resp.json()
 
@@ -79,7 +89,12 @@ class CheckLotto(commands.Cog):
             await ctx.send(embed=embed)
 
         except Exception as e:
-            await ctx.send(f"❌ เกิดข้อผิดพลาด: {e}")
+            embed = discord.Embed(
+                title="❌ เกิดข้อผิดพลาด",
+                description=f"{e}",
+                color=0xFF0000
+            )
+            await ctx.send(embed=embed)
 
 async def setup(bot):
     await bot.add_cog(CheckLotto(bot))
