@@ -2,19 +2,21 @@ import discord
 import aiohttp
 import json
 import os
+from dotenv import load_dotenv
 from discord.ext import commands
 
+load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
 
 intents = discord.Intents.default()
 intents.message_content = True
 
-bot = commands.Bot(command_prefix='/', intents=intents)
-
+bot = commands.Bot(command_prefix='!', intents=intents, help_command=None)
+prefix = bot.command_prefix
 @bot.event
 async def on_ready():
     print(f"✅ Bot {bot.user} is online")
-    await bot.change_presence(activity=discord.Game("/covid, /lotto, /check_lotto"))
+    await bot.change_presence(activity=discord.Game(f"พิมพ์ {prefix}help เพื่อดูคำสั่ง"))
 
 async def get_data_url(url):
     async with aiohttp.ClientSession() as session:
@@ -199,6 +201,20 @@ async def check_lotto(ctx, number: str):
             inline=False
         )
 
+    embed.set_footer(text="👨‍💻 พัฒนาโดย Pargorn Ruasijan")
+    await ctx.send(embed=embed)
+
+@bot.command()
+async def help(ctx):
+    command_prefix = bot.command_prefix if isinstance(bot.command_prefix, str) else "!"
+    embed = discord.Embed(
+        title="📚 คำสั่งของบอท",
+        description="ใช้คำสั่งต่อไปนี้เพื่อใช้งานบอท",
+        color=0x008080
+    )
+    embed.add_field(name=f"`{command_prefix}covid`", value="แสดงสถานการณ์ COVID-19 ในประเทศไทย", inline=True)
+    embed.add_field(name=f"`{command_prefix}lotto`", value="แสดงผลสลากกินแบ่งรัฐบาลล่าสุด", inline=True)
+    embed.add_field(name=f"`{command_prefix}check_lotto <เลข 6 หลัก>`", value="ตรวจสอบผลรางวัลสำหรับเลขที่ระบุ", inline=True)
     embed.set_footer(text="👨‍💻 พัฒนาโดย Pargorn Ruasijan")
     await ctx.send(embed=embed)
 
