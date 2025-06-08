@@ -11,8 +11,9 @@ class CheckLotto(commands.Cog):
 
     @commands.command()
     async def check_lotto(self, ctx, number: str):
+        prefix = self.bot.command_prefix if isinstance(self.bot.command_prefix, str) else "/"
         if not number.isdigit() or len(number) != 6:
-            await ctx.send("❌ กรุณากรอกเลข 6 หลัก เช่น `!check_lotto 123456`")
+            await ctx.send(f"❌ กรุณากรอกเลข 6 หลัก เช่น `{prefix}check_lotto 123456`")
             return
 
         try:

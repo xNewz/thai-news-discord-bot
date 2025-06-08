@@ -16,9 +16,9 @@ class Help(commands.Cog):
             description="ใช้คำสั่งต่อไปนี้เพื่อใช้งานบอท",
             color=0x008080
         )
-        embed.add_field(name=f"{command_prefix}covid", value="แสดงสถานการณ์ COVID-19 ในประเทศไทย", inline=True)
-        embed.add_field(name=f"{command_prefix}lotto", value="แสดงผลสลากกินแบ่งรัฐบาลล่าสุด", inline=True)
-        embed.add_field(name=f"{command_prefix}check_lotto <เลข 6 หลัก>", value="ตรวจสอบผลรางวัลสำหรับเลขที่ระบุ", inline=True)
+        embed.add_field(name=f"`{command_prefix}covid`", value="แสดงสถานการณ์ COVID-19 ในประเทศไทย", inline=True)
+        embed.add_field(name=f"`{command_prefix}lotto`", value="แสดงผลสลากกินแบ่งรัฐบาลล่าสุด", inline=True)
+        embed.add_field(name=f"`{command_prefix}check_lotto <เลข 6 หลัก>`", value="ตรวจสอบผลรางวัลสำหรับเลขที่ระบุ", inline=True)
         embed.set_footer(text="👨‍💻 พัฒนาโดย Pargorn Ruasijan")
         await ctx.send(embed=embed)
 
