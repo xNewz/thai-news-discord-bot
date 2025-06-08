@@ -52,7 +52,12 @@ class Covid(commands.Cog):
 
             await ctx.send(embed=e)
         except Exception as e:
-            await ctx.send(f"❌ เกิดข้อผิดพลาด: {e}")
+            error_embed = discord.Embed(
+                title="❌ เกิดข้อผิดพลาด",
+                description=f"{e}",
+                color=0xFF0000
+            )
+            await ctx.send(embed=error_embed)
 
 
 async def setup(bot):

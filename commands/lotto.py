@@ -98,10 +98,21 @@ class Lotto(commands.Cog):
                 )
 
             embed.set_footer(text="👨‍💻 พัฒนาโดย Pargorn Ruasijan")
-            await ctx.send(embed=embed)
+            try:
+                await ctx.send(embed=embed)
+            except discord.HTTPException as e:
+                await ctx.send(embed=discord.Embed(
+                    title="❌ ไม่สามารถส่ง embed ได้",
+                    description=f"เกิดข้อผิดพลาด: {e}",
+                    color=0xFF0000
+                ))
 
         except Exception as e:
-            await ctx.send(f"❌ เกิดข้อผิดพลาด: {e}")
+            await ctx.send(embed=discord.Embed(
+                title="❌ เกิดข้อผิดพลาด",
+                description=str(e),
+                color=0xFF0000
+            ))
 
 
 async def setup(bot):
