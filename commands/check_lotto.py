@@ -2,8 +2,13 @@
 
 import discord
 import aiohttp
-from discord.ext import commands
+import os
 
+from discord.ext import commands
+from dotenv import load_dotenv
+
+load_dotenv()
+PREFIX = os.getenv("COMMAND_PREFIX", "!")
 
 class CheckLotto(commands.Cog):
     def __init__(self, bot):
@@ -11,11 +16,10 @@ class CheckLotto(commands.Cog):
 
     @commands.command()
     async def check_lotto(self, ctx, number: str):
-        prefix = self.bot.command_prefix if isinstance(self.bot.command_prefix, str) else "/"
         if not number.isdigit() or len(number) != 6:
             embed = discord.Embed(
                 title="❌ ข้อมูลไม่ถูกต้อง",
-                description=f"กรุณากรอกเลข 6 หลัก เช่น `{prefix}check_lotto 123456`",
+                description=f"กรุณากรอกเลข 6 หลัก เช่น `{PREFIX}check_lotto 123456`",
                 color=0xFF0000
             )
             await ctx.send(embed=embed)

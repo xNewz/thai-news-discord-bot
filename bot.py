@@ -5,16 +5,17 @@ from dotenv import load_dotenv
 
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
+PREFIX = os.getenv("COMMAND_PREFIX", "!")
 
 intents = discord.Intents.default()
 intents.message_content = True
 
-bot = commands.Bot(command_prefix="!", intents=intents, help_command=None)
+bot = commands.Bot(command_prefix=PREFIX, intents=intents, help_command=None)
 
 @bot.event
 async def on_ready():
     print(f"✅ Bot {bot.user} is online")
-    await bot.change_presence(activity=discord.Game(f"พิมพ์ !help เพื่อดูคำสั่ง"))
+    await bot.change_presence(activity=discord.Game(f"พิมพ์ {PREFIX}help เพื่อดูคำสั่ง"))
 
 @bot.event
 async def setup_hook():
