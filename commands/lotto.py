@@ -19,7 +19,7 @@ class Lotto(commands.Cog):
     async def lotto(self, ctx):
         try:
             raw = await self.get_data_url(
-                "https://lotto.api.rayriffy.com/latest"
+                "https://api.pargorn.com/api/lotto/v1/latest"
             )
             data = json.loads(raw)
 
@@ -33,7 +33,7 @@ class Lotto(commands.Cog):
             running = response["runningNumbers"]
             embed = discord.Embed(
                 title=f"🎯 ผลสลากกินแบ่งรัฐบาล งวดวันที่ {date}",
-                description="ข้อมูลจาก [lotto.api.rayriffy.com](https://lotto.api.rayriffy.com/swagger)",
+                description="ข้อมูลจาก [api.pargorn.com](https://api.pargorn.com)",
                 color=0xFF0000,
             )
 
@@ -44,7 +44,7 @@ class Lotto(commands.Cog):
                 return next((r for r in running if r["id"] == running_id), None)
 
             # รางวัลที่ 1
-            prize_1 = find_prize("prizeFirst")
+            prize_1 = find_prize("firstPrize")
             if prize_1:
                 embed.add_field(
                     name=f"🏆 {prize_1['name']} ({int(prize_1['reward']):,})",
@@ -53,7 +53,7 @@ class Lotto(commands.Cog):
                 )
 
             # ข้างเคียงรางวัลที่ 1
-            near_1 = find_prize("prizeFirstNear")
+            near_1 = find_prize("firstPrizeAdjacent")
             if near_1:
                 embed.add_field(
                     name=f"🔢 {near_1['name']} ({int(near_1['reward']):,})",
@@ -62,7 +62,7 @@ class Lotto(commands.Cog):
                 )
 
             # รางวัลที่ 2
-            prize_2 = find_prize("prizeSecond")
+            prize_2 = find_prize("secondPrize")
             if prize_2:
                 embed.add_field(
                     name=f"🥈 {prize_2['name']} ({int(prize_2['reward']):,})",
@@ -71,7 +71,7 @@ class Lotto(commands.Cog):
                 )
 
             # รางวัลเลขหน้า 3 ตัว
-            front_3 = find_running("runningNumberFrontThree")
+            front_3 = find_running("frontThreeDigits")
             if front_3:
                 embed.add_field(
                     name=f"🎫 {front_3['name']} ({int(front_3['reward']):,})",
@@ -80,7 +80,7 @@ class Lotto(commands.Cog):
                 )
 
             # รางวัลเลขท้าย 3 ตัว
-            back_3 = find_running("runningNumberBackThree")
+            back_3 = find_running("backThreeDigits")
             if back_3:
                 embed.add_field(
                     name=f"🎫 {back_3['name']} ({int(back_3['reward']):,})",
@@ -89,7 +89,7 @@ class Lotto(commands.Cog):
                 )
 
             # รางวัลเลขท้าย 2 ตัว
-            back_2 = find_running("runningNumberBackTwo")
+            back_2 = find_running("backTwoDigits")
             if back_2:
                 embed.add_field(
                     name=f"🎟️ {back_2['name']} ({int(back_2['reward']):,})",

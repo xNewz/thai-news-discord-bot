@@ -27,7 +27,7 @@ class CheckLotto(commands.Cog):
 
         try:
             async with aiohttp.ClientSession() as session:
-                async with session.get("https://lotto.api.rayriffy.com/latest") as resp:
+                async with session.get("https://api.pargorn.com/api/lotto/v1/latest") as resp:
                     if resp.status != 200:
                         embed = discord.Embed(
                             title="❌ ไม่สามารถดึงข้อมูลหวยได้",
