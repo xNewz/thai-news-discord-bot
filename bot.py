@@ -24,5 +24,6 @@ async def setup_hook():
     await bot.load_extension("commands.check_lotto")
     await bot.load_extension("commands.help")
     await bot.load_extension("commands.ping")
+    await bot.load_extension("tasks.auto_lotto")
 
 bot.run(TOKEN)
