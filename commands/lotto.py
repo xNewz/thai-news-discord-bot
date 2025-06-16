@@ -24,12 +24,11 @@ class Lotto(commands.Cog):
             headers = {"Authorization": f"Bearer {os.getenv('LOTTO_API_TOKEN', '')}"}
             raw = await self.get_data_url("https://api.pargorn.com/api/lotto/v1/latest", headers=headers)
             data = json.loads(raw)
-
             if data["status"] != "success":
                 await ctx.send("❌ ไม่สามารถโหลดข้อมูลผลสลากได้")
                 return
 
-            response = data["response"]
+            response = data["data"]
             date = response["date"]
             prizes = response["prizes"]
             running = response["runningNumbers"]

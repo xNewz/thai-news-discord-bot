@@ -41,7 +41,7 @@ class CheckLotto(commands.Cog):
                         return
                     data = await resp.json()
 
-            response = data.get("response", {})
+            response = data.get("data", {})
             prizes = response.get("prizes", [])
             running = response.get("runningNumbers", [])
             matched = []

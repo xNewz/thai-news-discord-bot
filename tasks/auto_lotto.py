@@ -37,7 +37,7 @@ class AutoLotto(commands.Cog):
                     await channel.send("❌ ไม่สามารถโหลดข้อมูลผลสลากได้")
                     return
 
-                response = data["response"]
+                response = data["data"]
                 date = response["date"]
                 prizes = response["prizes"]
                 running = response["runningNumbers"]
