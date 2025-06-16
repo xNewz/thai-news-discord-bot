@@ -28,7 +28,8 @@ class AutoLotto(commands.Cog):
 
             try:
                 async with aiohttp.ClientSession() as session:
-                    async with session.get("https://lotto.api.rayriffy.com/latest") as resp:
+                    headers = {"Authorization": f"Bearer {os.getenv('LOTTO_API_TOKEN', '')}"}
+                    async with session.get("https://api.pargorn.com/api/lotto/v1/latest", headers=headers) as resp:
                         raw = await resp.text()
 
                 data = json.loads(raw)
@@ -46,7 +47,7 @@ class AutoLotto(commands.Cog):
 
                 embed = discord.Embed(
                     title=f"🎯 ผลสลากกินแบ่งรัฐบาล งวดวันที่ {date}",
-                    description="ข้อมูลจาก [lotto.api.rayriffy.com](https://lotto.api.rayriffy.com/swagger)",
+                    description="ข้อมูลจาก [api.pargorn.com](https://api.pargorn.com)",
                     color=0xFF0000,
                 )
 

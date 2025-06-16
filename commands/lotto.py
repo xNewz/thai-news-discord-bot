@@ -3,24 +3,26 @@
 import discord
 import json
 import aiohttp
+import os
+from dotenv import load_dotenv
 from discord.ext import commands
 
+load_dotenv()
 
 class Lotto(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    async def get_data_url(self, url):
+    async def get_data_url(self, url, headers=None):
         async with aiohttp.ClientSession() as session:
-            async with session.get(url) as response:
+            async with session.get(url, headers=headers) as response:
                 return await response.text()
 
     @commands.command()
     async def lotto(self, ctx):
         try:
-            raw = await self.get_data_url(
-                "https://api.pargorn.com/api/lotto/v1/latest"
-            )
+            headers = {"Authorization": f"Bearer {os.getenv('LOTTO_API_TOKEN', '')}"}
+            raw = await self.get_data_url("https://api.pargorn.com/api/lotto/v1/latest", headers=headers)
             data = json.loads(raw)
 
             if data["status"] != "success":
@@ -101,18 +103,20 @@ class Lotto(commands.Cog):
             try:
                 await ctx.send(embed=embed)
             except discord.HTTPException as e:
-                await ctx.send(embed=discord.Embed(
-                    title="❌ ไม่สามารถส่ง embed ได้",
-                    description=f"เกิดข้อผิดพลาด: {e}",
-                    color=0xFF0000
-                ))
+                await ctx.send(
+                    embed=discord.Embed(
+                        title="❌ ไม่สามารถส่ง embed ได้",
+                        description=f"เกิดข้อผิดพลาด: {e}",
+                        color=0xFF0000,
+                    )
+                )
 
         except Exception as e:
-            await ctx.send(embed=discord.Embed(
-                title="❌ เกิดข้อผิดพลาด",
-                description=str(e),
-                color=0xFF0000
-            ))
+            await ctx.send(
+                embed=discord.Embed(
+                    title="❌ เกิดข้อผิดพลาด", description=str(e), color=0xFF0000
+                )
+            )
 
 
 async def setup(bot):
