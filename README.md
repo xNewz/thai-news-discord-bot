@@ -5,5 +5,5 @@ A simple Discord bot that reports news from various sources to a specified chann
 ## Installation wuth Docker
 
 ```bash
-docker run -d --name discord-news -e DISCORD_TOKEN=<YOUR_DISCORD_TOKEN> xnewz/discord-news-report:latest
+docker run -d --name discord-news --env-file .env xnewz/discord-news-report:latest
 ```
